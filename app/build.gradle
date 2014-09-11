@@ -21,8 +21,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile files('libs/twitter4j-async-4.0.2.jar')
-    compile files('libs/twitter4j-core-4.0.2.jar')
     compile project(':facebook')
 }
 

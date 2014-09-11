@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,6 +52,8 @@ public class EditActivity extends Activity {
     private Button submitButton;
     private Button deleteButton;
     private String strStateOfActivity = null;
+    private String fb_token;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,8 @@ public class EditActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_edit);
 
+        sharedPreferences = getSharedPreferences("INFO", MODE_PRIVATE);
+        fb_token= sharedPreferences.getString("FB_TOKEN", "TOKEN IS MISSING");
         submitButton = (Button)findViewById(R.id.submitButton);
         dpLogDay = (DatePicker)findViewById(R.id.log_day);
         etPositiveThing = (EditText)findViewById(R.id.positive_thing);
@@ -159,9 +164,7 @@ public class EditActivity extends Activity {
         @Override
         protected String doInBackground(String... str) {
             try {
-//                HttpEntityEnclosingRequestBase httpRequest ;
                 HttpRequestBase httpRequest ;
-
                 if (strStateOfActivity.equals("new")){
                     httpRequest = new HttpPost(DayLog.apiUrl("POST"));
                 }else if(strStateOfActivity.equals("edit")){
@@ -171,9 +174,9 @@ public class EditActivity extends Activity {
                 }else{
                     return "strStateOfActivity is Invalid";
                 }
-
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 httpRequest.setHeader("Connection", "Keep-Alive");
+                httpRequest.setHeader("Authorization", fb_token);
                 ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
                 if (strStateOfActivity.equals("edit") || strStateOfActivity.equals("delete")) {
                     params.add(new BasicNameValuePair("[log][id]", String.valueOf(dayLog.id)));
@@ -226,7 +229,13 @@ public class EditActivity extends Activity {
                     return "Success";
 
                 }else{
+
+                    String message;
+                    if (status==HttpStatus.SC_UNPROCESSABLE_ENTITY){
+                        message = "必須項目を記入していますか？";
+                    }
                     throw new Exception("Error! status code is:" + status);
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();

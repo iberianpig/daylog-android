@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.iberianpig.daylog"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 20
         versionCode 1
         versionName "1.0"
@@ -21,4 +21,14 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile files('libs/twitter4j-async-4.0.2.jar')
+    compile files('libs/twitter4j-core-4.0.2.jar')
+    compile project(':facebook')
+}
+
+android {
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+    }
 }

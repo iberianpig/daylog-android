@@ -1,6 +1,8 @@
 package com.example.iberianpig.daylog;
 
 
+import android.content.SharedPreferences;
+
 import java.io.Serializable;
 
 public class DayLog implements Serializable{
@@ -12,13 +14,15 @@ public class DayLog implements Serializable{
     public String thought_again;
     public int motivation;
     public String url;
+//    static final String api_base_url = "http://192.168.100.4:3000/logs";
+    static final String api_base_url = "http://daylog-heroku.herokuapp.com/logs";
 
     public static String apiUrl(String request){
 
         String url = null;
 
         if (request.equals("POST") || request.equals("GET") || request.equals("DELETE")) {
-            url = "http://daylog-heroku.herokuapp.com/logs.json";
+            url = api_base_url + ".json";
         }
 
         return url;
@@ -28,7 +32,7 @@ public class DayLog implements Serializable{
         String url = null;
 
         if (request.equals("PUT") || request.equals("GET") || request.equals("DELETE")) {
-            url = "http://daylog-heroku.herokuapp.com/logs/"+id+".json";
+            url = api_base_url+"/"+id+".json";
         }
         return url;
     }
@@ -36,19 +40,5 @@ public class DayLog implements Serializable{
     DayLog(){
 
     }
-
-//    DayLog(int id, String log_day, String positive_thing, String idea, String remember, String thought_again, int motivation, String url){
-//        this.id = id;
-//        this.log_day = log_day;
-//        this.positive_thing = positive_thing;
-//        this.idea = idea;
-//        this.remember = remember;
-//        this.thought_again = thought_again;
-//        this.motivation = motivation;
-//        this.url = url;
-//    }
-
-
-
 
 }

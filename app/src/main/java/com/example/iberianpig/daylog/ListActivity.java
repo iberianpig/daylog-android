@@ -2,8 +2,10 @@ package com.example.iberianpig.daylog;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,12 +30,17 @@ public class ListActivity extends Activity{
     private DayLogAdapter dayLogAdapter;
     private DayLog dayLog = new DayLog();
     private List<DayLog> logList = new ArrayList<DayLog>();
+    private String fb_token;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_list);
+        sharedPreferences = getSharedPreferences("INFO", MODE_PRIVATE);
+        fb_token= sharedPreferences.getString("FB_TOKEN", "TOKEN IS MISSING");
+
         Button syncButton = (Button)findViewById(R.id.syncButton);
         Button newButton = (Button)findViewById(R.id.newButton);
         syncButton.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +53,7 @@ public class ListActivity extends Activity{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ListActivity.this, EditActivity.class);
+                Log.v("Check", String.valueOf(logList));
                 startActivity(intent);
             }
         });
@@ -86,9 +94,9 @@ public class ListActivity extends Activity{
         protected String doInBackground(String... url) {
             try {
                 HttpGet httpGet = new HttpGet(url[0]);
-
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 httpGet.setHeader("Connection", "Keep-Alive");
+                httpGet.setHeader("Authorization", fb_token);
 
                 HttpResponse response = httpClient.execute(httpGet);
                 int status = response.getStatusLine().getStatusCode();

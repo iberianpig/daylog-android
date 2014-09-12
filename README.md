@@ -8,4 +8,4 @@ You need to regist webapp with Facebook Acount(use only login) if you use this s
 Please [sign up with facebook](http://daylog-heroku.herokuapp.com/auth/facebook)  
 
 # Download Sample apkfile
-https://dply.me/bb8ef9
+[<img src="https://dply.me/qjdy1a/button/large" alt="Try it on your device via DeployGate">](https://dply.me/qjdy1a#install)

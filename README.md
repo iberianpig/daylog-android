@@ -1,10 +1,11 @@
 daylog-android
 ==============
 
-Logging app for keep your motivation. (Android Ver.)
+Logging app for keep your motivation. (Android Ver.)  
 
+# Require sign up
 You need to regist webapp with Facebook Acount(use only login) if you use this sample.  
-SignUp link(daylog-heroku.herokuapp.com)
+Please [sign up with facebook](http://daylog-heroku.herokuapp.com/auth/facebook)  
 
-#Download Sample apkfile
+# Download Sample apkfile
 https://dply.me/bb8ef9
